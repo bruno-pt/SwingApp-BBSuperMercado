@@ -18,39 +18,42 @@ public class Caixa {
         while(itCarrinho.hasNext()) {
             Produto produto = itCarrinho.next();
 
-            valorTotalCompra += produto.getPrecoUni()* produto.getQuantidadeCompra();
-            this.valorAcumulado += produto.getPrecoUni()* produto.getQuantidadeCompra();
+            valorTotalCompra += produto.getPrecoUni()* produto.getQuantidadeCompraAtual();
+            this.valorAcumulado += produto.getPrecoUni()* produto.getQuantidadeCompraAtual();
 
-            Produto produtoRelatorio = new Produto(
+            /*Produto produtoRelatorio = new Produto(
                     produto.getNome(),
                     produto.getQuantidadeEstoque(),
                     produto.getPrecoUni());
 
-            produtoRelatorio.setQuantidadeCompra(produto.getQuantidadeCompra());
+            produtoRelatorio.setQuantidadeCompra(produto.getQuantidadeCompra());*/
 
             boolean achou = false;
-            if(Gerente.relatorio != null){
+            //primeira inserção no relatório
+            if(Gerente.relatorio.size() == 0){
+                Gerente.relatorio.add(produto);
+            }
+            //relatório não null
+            else{
+                //verificar se o produto já existe no relatório
                 for(Produto prd: Gerente.relatorio){
+                    //caso exista, só altera valores
                     if(prd.getNome().equals(produto.getNome())){
-                        prd.setQuantidadeCompra(prd.getQuantidadeCompra() + produto.getQuantidadeCompra());
-                        achou = true;
+                        prd.setQuantidadeEstoque(produto.getQuantidadeEstoque());
+                        prd.setQuantidadeCompraTotal(produto.getQuantidadeCompraTotal());
+                        prd.setQuantidadeCompraAtual(produto.getQuantidadeCompraAtual());
+                        break;
+                    }
+                    //caso não exista, add
+                    else{                        
+                        Cliente.carrinho.add(produto);
                         break;
                     }
                 }
-                if(!achou){
-                    Gerente.relatorio.add(produtoRelatorio);
-                }
             }
-            else
-                Gerente.relatorio.add(produtoRelatorio);
-
-            produto.setQuantidadeEstoque(produto.getQuantidadeEstoque() - produto.getQuantidadeCompra());
-            produto.setQuantidadeCompra(0);
-
             itCarrinho.remove();
         }
-        App.clear();
-        //controle de venda por dinheiro ou cartão
+        App.clear();        
         this.funcionario.vendas.add(valorTotalCompra);
         return valorTotalCompra;
     }

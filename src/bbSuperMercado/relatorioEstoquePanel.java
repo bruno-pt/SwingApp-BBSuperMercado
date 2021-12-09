@@ -83,10 +83,10 @@ public class relatorioEstoquePanel extends javax.swing.JPanel {
     private void createListAltEstoque(){
         DefaultListModel listModel = new DefaultListModel();
         
-        for(Produto produto: relatorio){
+        for(Produto produto: Gerente.relatorio){
             listModel.addElement("Produto{nome="+produto.getNome()
-                    +", estoqueInicial="+produto.getQuantidadeEstoque()
-                    +", estoqueFinal="+(produto.getQuantidadeEstoque()-produto.getQuantidadeCompra())
+                    +", estoqueInicial="+(produto.getQuantidadeEstoque()+produto.getQuantidadeCompraTotal())
+                    +", estoqueAtual="+(produto.getQuantidadeEstoque())
                     +'}');
         }
         

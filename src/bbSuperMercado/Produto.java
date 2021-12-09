@@ -5,7 +5,8 @@ import java.util.ArrayList;
 public class Produto {
     private String nome;
     private int quantidadeEstoque;
-    private int quantidadeCompra = 0;
+    private int quantidadeCompraTotal = 0;
+    private int quantidadeCompraAtual = 0;
     private float precoUni;
 
     public Produto(String nome, int quantidadeEstoque, float precoUni) {
@@ -22,17 +23,25 @@ public class Produto {
                 ", preco(un)=" + precoUni +
                 '}';
     }
-
+    
+    public int getQuantidadeCompraAtual(){
+        return quantidadeCompraAtual;
+    }
+    
+    public void setQuantidadeCompraAtual(int quantidadeCompraAtual){
+        this.quantidadeCompraAtual = quantidadeCompraAtual;
+    }
+    
     public String getNome() {
         return nome;
     }
 
-    public void setQuantidadeCompra(int quantidadeCompra) {
-        this.quantidadeCompra = quantidadeCompra;
+    public void setQuantidadeCompraTotal(int quantidadeCompraTotal) {
+        this.quantidadeCompraTotal = quantidadeCompraTotal;
     }
 
-    public int getQuantidadeCompra() {
-        return quantidadeCompra;
+    public int getQuantidadeCompraTotal() {
+        return quantidadeCompraTotal;
     }
 
     public int getQuantidadeEstoque() {

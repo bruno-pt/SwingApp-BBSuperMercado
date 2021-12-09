@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.InputMismatchException;
 import java.util.Set;
 import javax.swing.DefaultListModel;
@@ -212,12 +213,38 @@ public class consultaSetorPanel extends javax.swing.JPanel {
         int i = 0;
         for (Produto produto : setor) {
             if(selectedProduto == i){
-                if(qntCompra <= produto.getQuantidadeEstoque()){
-                    Cliente.carrinho.add(produto);
-                    produto.setQuantidadeCompra(qntCompra);
-                    produto.setQuantidadeEstoque(produto.getQuantidadeEstoque() - produto.getQuantidadeCompra());
-                    break;
+                //se quantidade de compra for menor que o estoque, faz a inserção no carrinho
+                if(qntCompra <= produto.getQuantidadeEstoque()){ 
+                    //primeira inserção no carrinho
+                    if(Cliente.carrinho.size() == 0){   
+                        produto.setQuantidadeEstoque(produto.getQuantidadeEstoque() - qntCompra);
+                        produto.setQuantidadeCompraTotal(qntCompra + produto.getQuantidadeCompraTotal());                        
+                        produto.setQuantidadeCompraAtual(qntCompra);                        
+                        Cliente.carrinho.add(produto);
+                    }
+                    //carrinho não null
+                    else{ 
+                        //verificar se o produto já existe no carrinho
+                        for(Produto prd: Cliente.carrinho){
+                            //caso exista, só alterar valores
+                            if(prd.getNome().equals(produto.getNome())){
+                                prd.setQuantidadeEstoque(produto.getQuantidadeEstoque() - qntCompra);
+                                prd.setQuantidadeCompraTotal(qntCompra + prd.getQuantidadeCompraTotal());
+                                prd.setQuantidadeCompraAtual(qntCompra + prd.getQuantidadeCompraAtual());
+                                break;
+                            }
+                            //caso não exista, add
+                            else{               
+                                produto.setQuantidadeEstoque(produto.getQuantidadeEstoque() - produto.getQuantidadeCompraTotal());
+                                produto.setQuantidadeCompraTotal(qntCompra + prd.getQuantidadeCompraTotal());
+                                prd.setQuantidadeCompraAtual(qntCompra); 
+                                Cliente.carrinho.add(produto);
+                                break;
+                            }
+                        }
+                    }
                 }
+                //caso qntCompra for maior que o estoque
                 else{                    
                     JDialog dialog = new JDialog();
                     dialog.setSize(250, 100);

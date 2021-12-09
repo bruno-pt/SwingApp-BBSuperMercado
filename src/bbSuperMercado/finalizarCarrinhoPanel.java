@@ -40,9 +40,8 @@ public class finalizarCarrinhoPanel extends javax.swing.JPanel {
         
         while(itCarrinho.hasNext()) {
             Produto produto = itCarrinho.next();
-            valorTotalCompra += produto.getPrecoUni()* produto.getQuantidadeCompra();
-        }
-        //System.out.println(App.caixas.get(0).getFuncionario().getNome());        
+            valorTotalCompra += produto.getPrecoUni()* produto.getQuantidadeCompraTotal();
+        }      
         
         initComponents();
         
